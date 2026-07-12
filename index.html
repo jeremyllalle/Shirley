@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>Mapa conceptual | Gestión Institucional en Inicial</title>
+  <style>
+    :root{
+      --bg:#fffaf4; --card:#ffffff; --text:#2f2a28; --muted:#6f625d; --line:#ead8ca;
+      --rose:#f7c9d8; --peach:#ffd9b8; --mint:#d7f2e3; --sky:#dbeefe; --lilac:#eadcff; --gold:#ffe8a3;
+      --shadow:0 12px 30px rgba(85,55,28,.10); --radius:24px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text);
+      background:radial-gradient(circle at top left, rgba(247,201,216,.55), transparent 28%),
+                 radial-gradient(circle at top right, rgba(219,238,254,.8), transparent 22%),
+                 radial-gradient(circle at bottom left, rgba(215,242,227,.8), transparent 24%),
+                 linear-gradient(180deg, #fffdf9 0%, #fff8ef 100%);
+    }
+    .wrap{max-width:1280px;margin:0 auto;padding:24px}
+    .hero{
+      position:relative; overflow:hidden; border:1px solid rgba(0,0,0,.05); border-radius:32px; box-shadow:var(--shadow);
+      background:linear-gradient(135deg, rgba(255,255,255,.96), rgba(255,255,255,.90)), linear-gradient(135deg, #ffe5ef, #fff1d8 50%, #e6f5ff);
+      padding:28px; min-height:320px;
+    }
+    .topbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:54px;height:54px;border-radius:18px;background:conic-gradient(from 180deg, #f7c9d8, #ffd9b8, #d7f2e3, #dbeefe, #eadcff, #f7c9d8);
+      display:grid;place-items:center;box-shadow:inset 0 0 0 5px rgba(255,255,255,.65);font-size:28px
+    }
+    h1{font-size:clamp(28px,4vw,54px);line-height:1.02;margin:0 0 10px}
+    .subtitle{font-size:clamp(14px,1.6vw,18px);color:var(--muted);max-width:980px;margin:0}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .chip{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.85);border:1px solid rgba(0,0,0,.05);box-shadow:0 6px 16px rgba(0,0,0,.05);font-size:14px;color:#584d48}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:stretch;margin-top:20px}
+    .center-box{position:relative;border-radius:28px;background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92));border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow);padding:22px;min-height:230px}
+    .center-pill{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg, #ffdfeb, #fff0c9);border:1px solid rgba(0,0,0,.06);padding:12px 18px;border-radius:999px;font-weight:800;font-size:18px;box-shadow:0 10px 24px rgba(0,0,0,.06);margin-bottom:14px}
+    .center-box p{margin:0;color:var(--muted);line-height:1.65}
+    .flow{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;gap:10px;align-items:center;margin-top:18px}
+    .node,.mini-node{border-radius:22px;background:var(--card);border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow);padding:16px}
+    .node h3,.mini-node h4{margin:0 0 8px;font-size:18px}
+    .node p,.mini-node p{margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+    .arrow{display:grid;place-items:center;font-size:24px;font-weight:900;color:#7f6b60;background:linear-gradient(180deg,#fff,#fff5e9);border:1px dashed rgba(0,0,0,.10);border-radius:14px;height:56px}
+    .side{display:grid;gap:16px;align-content:start}
+    .mini-node:nth-child(1){background:linear-gradient(180deg, #fff, #fff8f2)}
+    .mini-node:nth-child(2){background:linear-gradient(180deg, #fff, #f7fbff)}
+    .mini-node:nth-child(3){background:linear-gradient(180deg, #fff, #f8fff9)}
+    .section{margin-top:26px;background:rgba(255,255,255,.74);border:1px solid rgba(0,0,0,.05);box-shadow:var(--shadow);border-radius:32px;padding:24px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+    .section h2{margin:0;font-size:clamp(22px,3vw,34px)}
+    .section .hint{margin:0;color:var(--muted)}
+    .grid-6,.criteria,.rubric,.gallery{display:grid;gap:14px}
+    .grid-6{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .dim{border-radius:24px;padding:18px;background:linear-gradient(180deg,#fff,#fffefc);border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 18px rgba(0,0,0,.05);min-height:145px}
+    .dim .tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:7px 10px;border-radius:999px;margin-bottom:10px;background:var(--mint)}
+    .dim:nth-child(2) .tag{background:var(--sky)} .dim:nth-child(3) .tag{background:var(--rose)}
+    .dim:nth-child(4) .tag{background:var(--lilac)} .dim:nth-child(5) .tag{background:var(--gold)} .dim:nth-child(6) .tag{background:var(--peach)}
+    .dim h3{margin:0 0 8px;font-size:18px} .dim p{margin:0;color:var(--muted);line-height:1.55;font-size:14px}
+    .criteria{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .criteria .box{border-radius:24px;padding:18px;background:linear-gradient(180deg,#fff,#fffaf5);border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 18px rgba(0,0,0,.05)}
+    .criteria h3{margin:0 0 10px;font-size:18px} .criteria ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.65} .criteria li{margin:4px 0}
+    .table-wrap{overflow:auto;border-radius:24px;border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 18px rgba(0,0,0,.05);background:#fff}
+    table{width:100%;border-collapse:collapse;min-width:760px}
+    th,td{text-align:left;padding:14px 16px;border-bottom:1px solid #f0e6dc;vertical-align:top}
+    th{background:linear-gradient(135deg,#fff5dd,#eaf7ff);font-size:14px;text-transform:uppercase;letter-spacing:.05em}
+    td{color:#4f4742}
+    .rubric{grid-template-columns:1fr 1fr}
+    .rubric .card{border-radius:24px;padding:18px;background:linear-gradient(180deg,#fff,#fffdf9);border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 18px rgba(0,0,0,.05)}
+    .rubric h3{margin:0 0 10px;font-size:18px} .rubric p,.rubric li{color:var(--muted);line-height:1.6} .rubric ul{margin:0;padding-left:18px}
+    .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+    figure{margin:0;border-radius:24px;overflow:hidden;background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 18px rgba(0,0,0,.06)}
+    figure img{width:100%;height:240px;object-fit:cover;display:block}
+    figcaption{padding:14px 14px 16px;color:var(--muted);font-size:14px;line-height:1.5}
+    .footer{margin:26px 0 10px;text-align:center;color:var(--muted);font-size:13px}
+    .anchorbar{display:flex;flex-wrap:wrap;gap:10px}
+    .btn{display:inline-block;text-decoration:none;color:#372f2a;background:#fff;border:1px solid rgba(0,0,0,.06);padding:10px 14px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.05);font-weight:600}
+    .pill-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .pill{padding:10px 12px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.06);color:#5f544e;font-size:14px;box-shadow:0 6px 16px rgba(0,0,0,.04)}
+    .callout{background:linear-gradient(135deg,#fff3d8,#f0f9ff);border:1px solid rgba(0,0,0,.06);border-radius:24px;padding:18px;margin-top:14px;box-shadow:0 8px 18px rgba(0,0,0,.05)}
+    .callout strong{display:block;margin-bottom:6px}
+    @media (max-width: 980px){
+      .hero-grid,.flow,.grid-6,.criteria,.rubric,.gallery{grid-template-columns:1fr}
+      .arrow{transform:rotate(90deg);height:44px}
+      figure img{height:220px}
+    }
+  </style>
+</head>
+<body>
+  <div class='wrap'>
+    <header class='hero'>
+      <div class='topbar'>
+        <div class='brand'>
+          <div class='logo'>🌷</div>
+          <div class='anchorbar'>
+            <a class='btn' href='#mapa'>Ir al mapa</a>
+            <a class='btn' href='#criterios'>Criterios</a>
+            <a class='btn' href='#rubrica'>Rúbrica</a>
+            <a class='btn' href='#imagenes'>Imágenes</a>
+          </div>
+        </div>
+        <div class='chips'>
+          <span class='chip'>Gestión Institucional</span>
+          <span class='chip'>Educación Inicial</span>
+          <span class='chip'>Mapa conceptual</span>
+        </div>
+      </div>
+
+      <h1>Gestión Institucional en el servicio educativo inicial</h1>
+      <p class='subtitle'>Un organizador visual completo, con enfoque de calidad educativa, interdependencia entre dimensiones, criterios de entrada/proceso/producto, indicadores, instrumentos y centralidad del niño.</p>
+
+      <div class='hero-grid' id='mapa'>
+        <div class='center-box'>
+          <div class='center-pill'>Concepto central: Gestión Institucional</div>
+          <p>Se entiende como la organización de recursos, la toma de decisiones, el seguimiento y la mejora continua para garantizar aprendizajes integrales, inclusión y bienestar en el nivel inicial.</p>
+          <div class='flow' aria-label='Secciones del mapa conceptual'>
+            <div class='node'>
+              <h3>¿Qué busca?</h3>
+              <p>Calidad educativa con aprendizajes significativos, seguros, equitativos y afectivos.</p>
+            </div>
+            <div class='arrow'>→</div>
+            <div class='node'>
+              <h3>¿Cómo se organiza?</h3>
+              <p>Por dimensiones interdependientes que sostienen la gestión institucional.</p>
+            </div>
+            <div class='arrow'>→</div>
+            <div class='node'>
+              <h3>¿Cómo se evidencia?</h3>
+              <p>Con criterios, indicadores, instrumentos y resultados centrados en el niño.</p>
+            </div>
+          </div>
+        </div>
+        <div class='side'>
+          <div class='mini-node'><h4>Enlace clave</h4><p><strong>se compone de</strong> seis dimensiones que actúan como sistema.</p></div>
+          <div class='mini-node'><h4>Enlace clave</h4><p><strong>se evalúa mediante</strong> entrada, proceso y producto.</p></div>
+          <div class='mini-node'><h4>Enlace clave</h4><p><strong>impacta en</strong> el desarrollo integral del niño y la satisfacción de las familias.</p></div>
+        </div>
+      </div>
+    </header>
+
+    <section class='section'>
+      <div class='section-head'>
+        <div><h2>1) Dimensiones de la gestión institucional</h2><p class='hint'>Cada dimensión se conecta con las demás; si una falla, el servicio completo se debilita.</p></div>
+      </div>
+      <div class='grid-6'>
+        <article class='dim'><span class='tag'>Liderazgo</span><h3>Liderazgo directivo</h3><p>Toma decisiones, motiva al equipo, orienta metas compartidas y dinamiza la gestión.</p></article>
+        <article class='dim'><span class='tag'>Planificación</span><h3>Planificación estratégica</h3><p>Diagnostica la realidad, prioriza problemas y convierte necesidades en proyectos y acciones.</p></article>
+        <article class='dim'><span class='tag'>Evaluación</span><h3>Evaluación de la gestión</h3><p>Verifica metas, procesos y resultados para corregir, mejorar y sostener lo logrado.</p></article>
+        <article class='dim'><span class='tag'>Clima</span><h3>Clima institucional</h3><p>Promueve relaciones respetuosas, seguras y colaborativas que favorecen el aprendizaje.</p></article>
+        <article class='dim'><span class='tag'>Formación</span><h3>Capacitación del personal</h3><p>Actualiza al equipo docente y administrativo para responder a los desafíos pedagógicos.</p></article>
+        <article class='dim'><span class='tag'>Pedagogía</span><h3>Desempeño docente</h3><p>Se expresa en la planificación curricular y en estrategias pertinentes a la realidad infantil.</p></article>
+      </div>
+      <div class='callout'><strong>Relación conceptual lista para exponer:</strong><span>La gestión institucional <em>se sostiene en</em> el liderazgo, la planificación, la evaluación, el clima, la capacitación y el desempeño docente; <em>todo ello</em> funciona como un sistema interdependiente.</span></div>
+    </section>
+
+    <section class='section' id='criterios'>
+      <div class='section-head'>
+        <div><h2>2) Criterios de calidad</h2><p class='hint'>Este bloque responde directamente a la rúbrica porque distingue recursos, procesos y resultados.</p></div>
+      </div>
+      <div class='criteria'>
+        <div class='box'><h3>Entrada</h3><ul><li>Recursos humanos: docentes idóneos y personal calificado.</li><li>Recursos financieros: presupuesto y gestión eficiente.</li><li>Infraestructura: instalaciones seguras, materiales y equipamiento.</li></ul></div>
+        <div class='box'><h3>Proceso</h3><ul><li>Prácticas pedagógicas: metodologías y horas efectivas.</li><li>Gestión administrativa: puntualidad, asistencia y liderazgo.</li><li>Convivencia escolar: clima institucional y resolución de conflictos.</li></ul></div>
+        <div class='box'><h3>Producto</h3><ul><li>Resultados académicos: logros y tasas de aprobación.</li><li>Desarrollo integral: actitudes y habilidades sociales.</li><li>Satisfacción educativa: percepción de familias y usuarios.</li></ul></div>
+      </div>
+    </section>
+
+    <section class='section'>
+      <div class='section-head'>
+        <div><h2>3) Indicadores e instrumentos de evaluación</h2><p class='hint'>Aquí conviene mostrar que el indicador no es el instrumento: el primero se observa, el segundo recoge evidencia.</p></div>
+      </div>
+      <div class='table-wrap'>
+        <table>
+          <thead><tr><th>Indicador</th><th>Descripción analítica</th><th>Instrumentos de medición</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Competencias docentes</strong></td><td>Capacidad para adaptar estrategias según necesidades del niño.</td><td>Portafolios docentes, rúbricas y evaluación de desempeño.</td></tr>
+            <tr><td><strong>Equidad y acceso</strong></td><td>Garantía de igualdad de oportunidades sin distinción de origen.</td><td>Tasas de matrícula, retención y culminación.</td></tr>
+            <tr><td><strong>Clima escolar</strong></td><td>Ambiente de inclusión, bienestar emocional y convivencia positiva.</td><td>Encuestas, diarios de observación y listas de cotejo.</td></tr>
+            <tr><td><strong>Desarrollo integral</strong></td><td>Progreso en áreas cognitivas, sociales, emocionales y motrices.</td><td>Portafolios, cuadernos de campo y observación sistemática.</td></tr>
+            <tr><td><strong>Rendimiento académico</strong></td><td>Logro de aprendizajes en áreas clave y cumplimiento de metas.</td><td>Evaluaciones estandarizadas y registros de logro.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class='section'>
+      <div class='section-head'>
+        <div><h2>4) Eje del niño, inclusión y mejora continua</h2><p class='hint'>Este bloque te ayuda a cerrar con la idea más importante: la gestión existe para el bienestar del niño.</p></div>
+      </div>
+      <div class='rubric'>
+        <div class='card'>
+          <h3>El niño como eje</h3>
+          <p>La gestión cobra sentido cuando responde a necesidades fundamentales: subsistencia, protección, afecto, entendimiento, participación, creación, identidad y libertad.</p>
+          <div class='pill-row'><span class='pill'>protección</span><span class='pill'>afecto</span><span class='pill'>creación</span><span class='pill'>autonomía</span><span class='pill'>participación</span></div>
+        </div>
+        <div class='card'>
+          <h3>Inclusión y participación</h3>
+          <ul><li>Equidad, diversidad e interculturalidad.</li><li>Eliminación de barreras físicas, pedagógicas y actitudinales.</li><li>Participación de familias, UGEL, directivos y docentes.</li><li>Estrategias de trabajo colaborativo como CAP y GIA.</li></ul>
+        </div>
+      </div>
+      <div class='callout'><strong>Frase de cierre para tu exposición:</strong><span>La evaluación no es para buscar errores, sino para encontrar oportunidades de mejora y construir una institución más equitativa, inclusiva y centrada en la infancia.</span></div>
+    </section>
+
+    <section class='section' id='rubrica'>
+      <div class='section-head'>
+        <div><h2>5) Cómo cumple la rúbrica</h2><p class='hint'>Esta parte te sirve como respaldo si la profesora evalúa contenido, claridad y enfoque.</p></div>
+      </div>
+      <div class='rubric'>
+        <div class='card'><h3>Comprensión de las dimensiones</h3><p>Explica las seis dimensiones con claridad y muestra su interdependencia.</p></div>
+        <div class='card'><h3>Aplicación de criterios de calidad</h3><p>Diferencia entrada, proceso y producto con ejemplos concretos del servicio educativo inicial.</p></div>
+        <div class='card'><h3>Enfoque de gestión inclusiva</h3><p>Integra equidad, diversidad, participación y eliminación de barreras.</p></div>
+        <div class='card'><h3>Uso de instrumentos de evaluación</h3><p>Relaciona portafolios, rúbricas, encuestas, cuadernos de campo y observación sistemática.</p></div>
+      </div>
+    </section>
+
+    <section class='section' id='imagenes'>
+      <div class='section-head'>
+        <div><h2>6) Imágenes integradas</h2><p class='hint'>Están dentro del zip en la misma carpeta del HTML, así que se verán directo al abrir la página.</p></div>
+      </div>
+      <div class='gallery'>
+        <figure><img src='img1.jpg' alt='Niños en un aula alegre'><figcaption><strong>Aula activa.</strong> Refuerza clima escolar, participación y aprendizaje vivencial.</figcaption></figure>
+        <figure><img src='img3.jpg' alt='Niños trabajando con apoyo docente'><figcaption><strong>Aprendizaje guiado.</strong> Muestra el rol docente y el acompañamiento pedagógico.</figcaption></figure>
+        <figure><img src='img5.jpg' alt='Niños y docentes en un aula infantil'><figcaption><strong>Interacción infantil.</strong> Ideal para representar inclusión, juego y vínculo afectivo.</figcaption></figure>
+        <figure><img src='img6.jpg' alt='Estudiantes en aula amplia'><figcaption><strong>Gestión del grupo.</strong> Útil para liderazgo, organización y convivencia en el aula.</figcaption></figure>
+        <figure><img src='img4.jpg' alt='Docentes en clase'><figcaption><strong>Trabajo colaborativo.</strong> Relaciona capacitación, desempeño y toma de decisiones.</figcaption></figure>
+      </div>
+    </section>
+
+    <div class='footer'>Hecho para GitHub Pages · HTML sin carpetas internas · Imágenes locales incluidas en el mismo zip</div>
+  </div>
+</body>
+</html>
